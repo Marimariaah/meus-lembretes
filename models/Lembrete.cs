@@ -9,6 +9,6 @@ namespace MeusLembrete.models
     {
         public int Id {get; set;}
         public string Titulo {get; set;} = String.Empty;
-        public string Data {get; set;} = String.Empty;
+        public DateTime Data {get; set;}
     }
 } 
