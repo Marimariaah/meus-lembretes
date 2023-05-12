@@ -8,7 +8,7 @@ namespace MeusLembrete.models
     public class Lembrete
     {
         public int Id {get; set;}
-        public string Title {get; set;} = String.Empty;
-        public int Date {get; set;}
+        public string Titulo {get; set;} = String.Empty;
+        public string Data {get; set;} = String.Empty;
     }
 } 
