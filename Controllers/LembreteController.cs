@@ -12,7 +12,7 @@ namespace MeusLembretes.Controllers
     public class LembreteController : ControllerBase
     {
         [HttpGet]
-        [Route("lembretes")]
+        [Route("/listar")]
         public List<LembreteEntity> Get()
         {
             return new List<LembreteEntity>();
