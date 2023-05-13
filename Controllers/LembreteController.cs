@@ -59,5 +59,48 @@ namespace MeusLembretes.Controllers
             }
         }
 
+        [HttpPut("/inserir/{id}")]
+        public async Task<IActionResult> PutAsync([FromServices] AppDbContext context,
+            [FromBody] CriarLembretesViewModel model,
+            [FromRoute] int id)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+
+            var lembrete = await context.Lembretes.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (lembrete == null) return NotFound();
+
+            try
+            {
+                lembrete.Titulo = model.Titulo;
+
+                context.Lembretes.Update(lembrete);
+                await context.SaveChangesAsync();
+                return Ok(lembrete);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("/excluir/{id}")]
+        public async Task<IActionResult> DeleteAsync(
+            [FromServices] AppDbContext context,
+            [FromRoute] int id)
+        {
+            var lembrete = await context.Lembretes.FirstOrDefaultAsync(x => x.Id == id);
+
+            try
+            {
+                context.Lembretes.Remove(lembrete);
+                await context.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
     }
 }
