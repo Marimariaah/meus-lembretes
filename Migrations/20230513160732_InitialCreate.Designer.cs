@@ -6,21 +6,19 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-#nullable disable
-
 namespace MeusLembretes.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230513011710_InitialCreation")]
-    partial class InitialCreation
+    [Migration("20230513160732_InitialCreate")]
+    partial class InitialCreate
     {
-        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("MeusLembretes.Models.LembreteEntidade", b =>
+            modelBuilder.Entity("MeusLembretes.Models.LembreteEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

@@ -8,7 +8,7 @@ namespace MeusLembretes.Models
     public class LembreteEntity
     {
         public int Id {get; set;}
-        public string Titulo {get; set;} = String.Empty;
+        public string Titulo {get; set;} 
         public DateTime Data {get; set;}
     }
 } 

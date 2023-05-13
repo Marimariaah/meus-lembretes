@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-#nullable disable
-
 namespace MeusLembretes.Migrations
 {
     [DbContext(typeof(AppDbContext))]
@@ -15,9 +13,10 @@ namespace MeusLembretes.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("MeusLembretes.Models.LembreteEntidade", b =>
+            modelBuilder.Entity("MeusLembretes.Models.LembreteEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
