@@ -73,6 +73,7 @@ namespace MeusLembretes.Controllers
             try
             {
                 lembrete.Titulo = model.Titulo;
+                lembrete.Data = model.Data;
 
                 context.Lembretes.Update(lembrete);
                 await context.SaveChangesAsync();
@@ -80,7 +81,7 @@ namespace MeusLembretes.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                return StatusCode(500);
             }
         }
 
@@ -91,6 +92,8 @@ namespace MeusLembretes.Controllers
         {
             var lembrete = await context.Lembretes.FirstOrDefaultAsync(x => x.Id == id);
 
+            if (lembrete == null) return NotFound();
+
             try
             {
                 context.Lembretes.Remove(lembrete);
@@ -99,7 +102,7 @@ namespace MeusLembretes.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                return StatusCode(500);
             }
         }
     }
