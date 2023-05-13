@@ -9,7 +9,7 @@ namespace MeusLembretes.Data
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<LembreteEntidade> Lembretes { get; set; }
+        public DbSet<LembreteEntity> Lembretes { get; set; }
         protected override void OnConfiguring(
             DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseSqlite(connectionString: "DataSource=app.db;cache=Shared");

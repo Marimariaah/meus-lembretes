@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MeusLembretes.Models
 {
-    public class LembreteEntidade
+    public class LembreteEntity
     {
         public int Id {get; set;}
         public string Titulo {get; set;} = String.Empty;
