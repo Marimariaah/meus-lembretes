@@ -2,7 +2,7 @@ export function Header() {
     return(
 
 <header>
-    <div>
+    <div className="header">
         <img src="" />
     </div>
 </header>
