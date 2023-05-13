@@ -59,7 +59,7 @@ namespace MeusLembretes.Controllers
             }
         }
 
-        [HttpPut("/inserir/{id}")]
+        [HttpPut("/atualizar/{id}")]
         public async Task<IActionResult> PutAsync([FromServices] AppDbContext context,
             [FromBody] CriarLembretesViewModel model,
             [FromRoute] int id)
