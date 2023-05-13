@@ -16,9 +16,8 @@ namespace MeusLembretes.Controllers
     {
         [HttpGet]
         [Route("/listar")]
-        public async Task<IActionResult> GetByIdAsync(
-            [FromServices] AppDbContext context,
-            [FromRoute] int id)
+        public async Task<IActionResult> GetAsync(
+            [FromServices] AppDbContext context)
         {
             var lembretes = await context.Lembretes.AsNoTracking().ToListAsync();
 
@@ -31,8 +30,8 @@ namespace MeusLembretes.Controllers
         [Route("/listar/{id}")]
         public async Task<IActionResult> GetById([FromServices] AppDbContext context, [FromRoute] int id)
         {
-            var todo = await context.Lembretes.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-            return todo == null ? NotFound() : Ok(todo);
+            var lembrete = await context.Lembretes.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            return lembrete == null ? NotFound() : Ok(lembrete);
         }
 
         [HttpPost("/salvar")]
