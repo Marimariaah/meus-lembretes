@@ -12,6 +12,6 @@ namespace MeusLembretes.ViewModels
         public string Titulo { get; set; }
 
         [Required]
-        public DateTime Data { get; set; }
+        public string Data { get; set; }
     }
 }
