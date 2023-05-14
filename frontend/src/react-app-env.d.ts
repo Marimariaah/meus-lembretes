@@ -4,3 +4,8 @@ interface Lembrete {
     data: string;
     expirado: boolean;
   }
+
+  interface LembreteAgrupado {
+    dataAgrupamento: string;
+    listaLembretes: [Lembrete],
+  }
