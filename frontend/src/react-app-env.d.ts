@@ -1,5 +1,6 @@
 interface Lembrete {
     id: number;
     titulo: string;
-    data: Date;
+    data: string;
+    expirado: boolean;
   }

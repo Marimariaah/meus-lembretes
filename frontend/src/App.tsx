@@ -1,5 +1,12 @@
+import { Header } from "./componentes/Header/index";
+import { ListaDeLembretes } from "./componentes/ListaDeLembretes/index";
 import "./styles/global.scss";
 
 export function App() {
-  return <h1>App basico criado com react e typeScript</h1>;
+  return (
+    <>
+      <Header />
+      <ListaDeLembretes />
+    </>
+  );
 }
