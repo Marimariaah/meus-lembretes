@@ -1,11 +1,11 @@
+import '../styles/header.scss'
+
 export function Header() {
-    return(
-
-<header>
-    <div className="header">
-        <img src="" />
-    </div>
-</header>
-
-    )
+  return (
+    <header className="header">
+      <div>
+        <img src="#" alt="lembrete"/>
+      </div>
+    </header>
+  )
 }
