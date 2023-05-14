@@ -29,6 +29,11 @@ namespace MeusLembretes
 
             app.UseRouting();
 
+            app.UseCors(x => x
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .SetIsOriginAllowed(origin => true));
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
