@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 // import {  } from ".";
 
-
 export function ListaDeLembretes() {
     const [lembretes, setLembretes] = useState<Lembrete[]>([]);
     const [newTituloDeLembrete, setNewTituloDeLembrete ] =useState('');
@@ -24,7 +23,27 @@ export function ListaDeLembretes() {
           setNewTituloDeLembrete('');
         }
 
+        function handleToggleLembreteCompletion(id: number) {
+            const newLembrete = [...lembretes];
+            const lembrete = newLembrete.find(lembrete => lembrete.id === id);
+            if (!lembrete) return false;
+            lembrete.isComplete = !lembrete.isComplete;
+            SavarLembretes(newLembrete);
+          }
 
+          function handleRemoveLembrete(id: number) {
+            const lembretesFiltradas = lembretes.filter(lembrete => lembrete.id !== id);
+            SavarLembretes(lembretesFiltradas);
+          }
+
+          async function recuperarLembretes() {
+            const stringLembrete = JSON.parse(localStorage.getItem('lembretes') || '{}');
+            if (!(Object.keys(stringLembrete).length === 0)) return setLembretes(stringLembrete);
+          }
+
+          useEffect(() => {
+            (async () => { await recuperarLembretes(); })();
+          }, [])
     }
-}
+
 
