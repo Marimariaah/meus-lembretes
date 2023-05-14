@@ -3,16 +3,19 @@ import axios from "axios";
 
 import "./style.scss";
 
-import { FiTrash, FiCheckSquare } from "react-icons/fi";
+import { FiEdit, FiTrash, FiCheckSquare } from "react-icons/fi";
 
 export function ListaDeLembretes() {
+
   const [Lembretes, setLembretes] = useState<Lembrete[]>([]);
   const [novoTituloDoLembrete, setNovoTituloDoLembrete] = useState("");
   const [novaDataDoLembrete, setNovaDataDoLembrete] = useState("");
+  const [estaEditando, setEstaEditando] = useState(false);
+  const [idEmUso, setIdEmUso] = useState(0);
 
   const instanciaAxios = axios.create({
     baseURL: "https://localhost:44327",
-    timeout: 3000,
+    timeout: 9000,
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
@@ -23,10 +26,9 @@ export function ListaDeLembretes() {
     const tituloInvalido = novoTituloDoLembrete.length < 3;
     const dataVazia = novaDataDoLembrete.length < 10;
 
-    const dataAtual = new Date();
-    const hoje = new Date(Date.UTC(dataAtual.getUTCFullYear(), dataAtual.getUTCMonth(), dataAtual.getUTCDate() ));
-    const [dia, mes, ano] = novaDataDoLembrete.split("/");    
-    const dataConvertida = [ano,mes,dia].join("-");
+    const hoje = new Date();      
+    const [dia, mes, ano] = novaDataDoLembrete.split("/");
+    const dataConvertida = [ano, mes, dia].join("-");
     const dataLembrete = new Date(dataConvertida);
 
     if (tituloInvalido) {
@@ -39,26 +41,46 @@ export function ListaDeLembretes() {
       return;
     }
 
-  if(dataLembrete.getTime() <= hoje.getTime()) {
-    alert("Não é possivél adicionar lembretes para hoje, ou data que ja passaram, selecione uma data futura!");
-    return;
-  }
-  
+    if (hoje.getUTCFullYear() >= dataLembrete.getUTCFullYear() && 
+    hoje.getUTCMonth() >= dataLembrete.getUTCMonth() && 
+    hoje.getUTCDate() >= dataLembrete.getUTCDate()) {
+      alert(
+        "Não é possivél adicionar lembretes para hoje, ou datas que já passaram, selecione uma data futura!"
+      );
+      return;
+    }
+
     const Lembrete = {
       titulo: novoTituloDoLembrete,
       data: novaDataDoLembrete,
     };
 
-    instanciaAxios
-      .post("/salvar", Lembrete)
+    if (estaEditando) {
+      instanciaAxios
+      .put("/atualizar/" + idEmUso, Lembrete)
       .then(function (response) {
-        alert("salvo com sucesso!");
-        obterLembretes()
+        alert("atualizado com sucesso!");
+        obterLembretes();
+        setEstaEditando(false)
       })
       .catch(function (error) {
         alert("um erro foi encontrado ao salvar");
         console.error(error);
       });
+    } else {
+      instanciaAxios
+      .post("/salvar", Lembrete)
+      .then(function (response) {
+        alert("salvo com sucesso!");
+        obterLembretes();
+      })
+      .catch(function (error) {
+        alert("um erro foi encontrado ao salvar");
+        console.error(error);
+      });
+    }
+
+   
   }
 
   function handleRemoverLembrete(id: number) {
@@ -66,7 +88,7 @@ export function ListaDeLembretes() {
       .delete("/excluir/" + id)
       .then(function (response) {
         alert("removido com sucesso!");
-        obterLembretes()
+        obterLembretes();
       })
       .catch(function (error) {
         alert("um erro foi encontrado ao excluir!");
@@ -75,27 +97,26 @@ export function ListaDeLembretes() {
   }
 
   function handleAtualizarLembrete(id: number) {
-    instanciaAxios
-    .put("/atualizar/" + id)
-    .then(function (response) {
-      alert("atualizado com sucesso!");
-      obterLembretes()
-    })
-    .catch(function (error) {
-      alert("um erro foi encontrado ao atualizar!");
-      console.error(error);
-    });
+    const lembrete = Lembretes.find(l => l.id === id)
+    if (lembrete) {
+      setNovoTituloDoLembrete(lembrete?.titulo)
+      setNovaDataDoLembrete(lembrete?.data)
+    }
+    setEstaEditando(true);
+    setIdEmUso(id)
   }
 
   async function obterLembretes() {
     instanciaAxios
       .get("/listar")
       .then(function (response) {
-        console.log(response.data)
-        setLembretes(response.data)
+        console.log(response.data);
+        setLembretes(response.data);
       })
       .catch(function (error) {
-        alert("Encontramos um erro ao atualizar a lista de lembretes atualize a página para tentar novamente");
+        alert(
+          "Encontramos um erro ao atualizar a lista de lembretes atualize a página para tentar novamente"
+        );
         console.error(error);
       });
   }
@@ -144,14 +165,22 @@ export function ListaDeLembretes() {
               >
                 <p>{Lembrete.titulo}</p>
               </div>
-
-              <button
-                type="button"
-                data-testid="remove-Lembrete-button"
-                onClick={() => handleRemoverLembrete(Lembrete.id)}
-              >
-                <FiTrash size={16} />
-              </button>
+              <div>
+                <button
+                  type="button"
+                  data-testid="editar-Lembrete-button"
+                  onClick={() => handleAtualizarLembrete(Lembrete.id)}
+                >
+                  <FiEdit size={16} />
+                </button>
+                <button
+                  type="button"
+                  data-testid="remove-Lembrete-button"
+                  onClick={() => handleRemoverLembrete(Lembrete.id)}
+                >
+                  <FiTrash size={16} />
+                </button>
+              </div>
             </li>
           ))}
         </ul>
